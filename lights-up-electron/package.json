@@ -1,0 +1,49 @@
+{
+  "name": "lights-up-electron",
+  "version": "1.0.0",
+  "description": "Desktop control for Lights-up.",
+  "main": "dist/electron/index.js",
+  "scripts": {
+    "dev:web": "webpack-dev-server --config webpack.dev.js",
+    "dev:electron": "tsc -w --outDir dist/electron --target es5 src/electron/index.ts",
+    "start": "electron ."
+  },
+  "author": "Henry Li (henry1943@163.com)",
+  "license": "MIT",
+  "dependencies": {
+    "menubar": "^6.0.6",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "css-loader": "1.0.1",
+    "electron": "^5.0.6",
+    "error-overlay-webpack-plugin": "^0.4.0",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-formatter-pretty": "^2.1.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "prettier": "^1.18.2",
+    "style-loader": "^0.23.1",
+    "typescript": "^3.5.2",
+    "typings-for-css-modules-loader": "^1.7.0",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
+  }
+}
