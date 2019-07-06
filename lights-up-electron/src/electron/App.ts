@@ -32,6 +32,7 @@ export class App {
     };
     menubar({
       ...options,
+      icon: mappath('public/icon.png'),
       browserWindow: {
         width: 300,
         height: 400,
