@@ -7,15 +7,18 @@
 
 CRGB leds[NUM_LEDS];
 
-void setup() {
-  Serial.begin(115200);
-  // put your setup code here, to run once:
+void initFastLED() {
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setBrightness(255);
   for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Orange;
+    leds[i] = CRGB::OrangeRed;
   }
   FastLED.show();
+}
+
+void setup() {
+  Serial.begin(115200);
+  initFastLED();
 }
 
 void loop() {
