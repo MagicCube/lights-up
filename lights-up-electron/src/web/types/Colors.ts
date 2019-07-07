@@ -3,3 +3,9 @@ export interface RGB {
   g: number;
   b: number;
 }
+
+export interface HSV {
+  h: number;
+  s: number;
+  v: number;
+}
