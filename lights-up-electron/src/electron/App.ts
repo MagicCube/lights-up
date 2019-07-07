@@ -1,4 +1,7 @@
+import { ipcMain } from 'electron';
 import { menubar } from 'menubar';
+
+import { Message } from '../common/Message';
 
 import { LEDStrip } from './accessories/LEDStrip';
 import { mappath } from './utils/mappath';
@@ -6,13 +9,17 @@ import { mappath } from './utils/mappath';
 export class App {
   private static _instance: App = null;
 
-  private _ledStrip: LEDStrip = null;
-
   static get instance() {
     if (!App._instance) {
       App._instance = new App();
     }
     return App._instance;
+  }
+
+  private _ledStrip: LEDStrip = null;
+
+  get ledStrip() {
+    return this._ledStrip;
   }
 
   setup() {
@@ -36,7 +43,7 @@ export class App {
       browserWindow: {
         width: 300,
         height: 400,
-        vibrancy: 'popover',
+        vibrancy: 'light',
         webPreferences: {
           nodeIntegration: true
         }
@@ -47,5 +54,9 @@ export class App {
 
   private _registerHotkeys() {}
 
-  private _registerEnvents() {}
+  private _registerEnvents() {
+    ipcMain.on('message', (event: Event, message: Message) => {
+      this.ledStrip.sendMessage(message);
+    });
+  }
 }
