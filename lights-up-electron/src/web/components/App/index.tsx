@@ -18,9 +18,9 @@ export const App: React.SFC = () => {
   const handlePowerChange = React.useCallback((checked: boolean) => {
     setPower(checked);
     if (checked) {
-      postMessage('on');
+      postMessage('turnOn');
     } else {
-      postMessage('off');
+      postMessage('turnOff');
     }
   }, []);
 
