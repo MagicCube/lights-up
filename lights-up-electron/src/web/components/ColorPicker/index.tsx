@@ -2,7 +2,7 @@
 import iro from '@jaames/iro';
 import * as React from 'react';
 
-import { HSV } from '../../types/Colors';
+import { HSV } from '../../../common/Colors';
 
 import * as styles from './index.less';
 

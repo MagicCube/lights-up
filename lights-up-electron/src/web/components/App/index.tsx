@@ -2,10 +2,11 @@ import Switch from 'antd/es/switch';
 import cn from 'classnames';
 import * as React from 'react';
 
-import { HSV } from '../../types/Colors';
+import { HSV } from '../../../common/Colors';
 
 import { AppHeader } from '../AppHeader';
 import { ColorPicker } from '../ColorPicker';
+import { postMessage } from '../../messages';
 
 import * as styles from './index.less';
 
@@ -16,15 +17,22 @@ export const App: React.SFC = () => {
 
   const handlePowerChange = React.useCallback((checked: boolean) => {
     setPower(checked);
+    if (checked) {
+      postMessage('on');
+    } else {
+      postMessage('off');
+    }
   }, []);
 
   const handleColorChange = React.useCallback((newColor: HSV) => {
     setHSVColor(newColor);
+    postMessage('setColor', { color: newColor });
   }, []);
   const handleBrightnessChange = React.useCallback((newBrightess: number) => {
     setBrightness(newBrightess);
+    postMessage('setBrightness', { brightness: newBrightess });
   }, []);
-  console.info(power, hsvColor, brightness);
+
   return (
     <div>
       <AppHeader>
