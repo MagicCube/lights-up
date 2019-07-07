@@ -16,6 +16,7 @@ module.exports = {
   },
   module: {
     rules: [
+      // Typescript & ESLint
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
@@ -30,8 +31,39 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'awesome-typescript-loader'
       },
+      // CSS & Less
       {
+        // CSS Rules for node_modules
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        include: /node_modules/
+      },
+      {
+        // CSS Rules for node_modules
         test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+              modifyVars: {
+                hack: 'true; @import "../../../src/web/variables.less";'
+              }
+            }
+          }
+        ],
+        include: /node_modules/
+      },
+      {
+        // Less Rules for source
+        test: /\.less$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'style-loader'
@@ -45,7 +77,10 @@ module.exports = {
             }
           },
           {
-            loader: 'less-loader'
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true
+            }
           }
         ]
       }

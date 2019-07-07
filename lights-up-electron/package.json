@@ -4,6 +4,7 @@
   "description": "Desktop control for Lights-up.",
   "main": "dist/electron/index.js",
   "scripts": {
+    "build:web": "webpack --config webpack.prod.js",
     "dev:web": "webpack-dev-server --config webpack.dev.js",
     "dev:electron": "tsc -w --outDir dist/electron --target es5 src/electron/index.ts",
     "start": "electron ."
@@ -11,6 +12,7 @@
   "author": "Henry Li (henry1943@163.com)",
   "license": "MIT",
   "dependencies": {
+    "antd": "^3.20.0",
     "menubar": "^6.0.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
