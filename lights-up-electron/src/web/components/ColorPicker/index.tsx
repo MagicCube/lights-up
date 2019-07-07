@@ -56,7 +56,7 @@ export const ColorPicker: React.SFC<ColorPickerProps> = (props: ColorPickerProps
         const newHSVColor = {
           h: hsvColor.h,
           s: hsvColor.s,
-          v: 100
+          v: brightness
         };
         console.info('Set to ', newHSVColor);
         colorPickerRef.current.color.hsv = newHSVColor;
