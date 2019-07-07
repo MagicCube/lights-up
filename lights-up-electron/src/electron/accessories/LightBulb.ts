@@ -1,3 +1,6 @@
+import { HSV } from '../../common/Colors';
+import { Message } from '../../common/Message';
+
 import { Accessory } from './Accessory';
 
 export class LightBulb extends Accessory {
@@ -23,7 +26,11 @@ export class LightBulb extends Accessory {
 
   turnOff() {}
 
-  setRGBColor(r: number, g: number, b: number) {}
+  setHSVColor(hsv: HSV) {}
 
   setBrightness(brightness: number) {}
+
+  onMessage(message: Message) {
+    console.info(message);
+  }
 }
