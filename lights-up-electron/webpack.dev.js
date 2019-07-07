@@ -11,7 +11,7 @@ module.exports = merge(common, {
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
   },
   devtool: 'cheap-module-source-map',
-  // target: 'electron-renderer',
+  target: 'electron-renderer',
   devServer: {
     contentBase: path.resolve('./public'),
     disableHostCheck: true,
