@@ -22,15 +22,33 @@ export class LightBulb extends Accessory {
     return this._address;
   }
 
-  turnOn() {}
+  turnOn() {
+    console.info(`[${this.name}] Turn on`);
+  }
 
-  turnOff() {}
+  turnOff() {
+    console.info(`[${this.name}] Turn off`);
+  }
 
-  setHSVColor(hsv: HSV) {}
+  setHSVColor(hsvColor: HSV) {
+    console.info(`[${this.name}] Set color to`, hsvColor);
+  }
 
-  setBrightness(brightness: number) {}
+  setBrightness(brightness: number) {
+    console.info(`[${this.name}] Set brightness to`, brightness);
+  }
 
   onMessage(message: Message) {
-    console.info(message);
+    if (!super.onMessage(message)) {
+      if (message.type === 'setHSVColor') {
+        this.setHSVColor(message.hsvColor as HSV);
+        return true;
+      }
+      if (message.type === 'setBrightness') {
+        this.setBrightness(message.brightness as number);
+        return true;
+      }
+    }
+    return false;
   }
 }

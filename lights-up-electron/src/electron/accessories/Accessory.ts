@@ -5,9 +5,23 @@ export abstract class Accessory {
     this.onMessage(message);
   }
 
+  protected onMessage(message: Message): boolean {
+    if (message.type === 'turnOn') {
+      this.turnOn();
+      return true;
+    }
+    if (message.type === 'turnOff') {
+      this.turnOff();
+      return true;
+    }
+    return false;
+  }
+
   abstract get name(): string;
 
   abstract get address(): string;
 
-  protected abstract onMessage(message: Message): void;
+  abstract turnOn(): void;
+
+  abstract turnOff(): void;
 }

@@ -26,7 +26,7 @@ export const App: React.SFC = () => {
 
   const handleColorChange = React.useCallback((newColor: HSV) => {
     setHSVColor(newColor);
-    postMessage('setColor', { color: newColor });
+    postMessage('setHSVColor', { hsvColor: newColor });
   }, []);
   const handleBrightnessChange = React.useCallback((newBrightess: number) => {
     setBrightness(newBrightess);
