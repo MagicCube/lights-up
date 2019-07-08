@@ -1,1 +1,1 @@
-export * from './channels/dummy';
+export * from './channels/ipcRenderer';
