@@ -6,7 +6,7 @@ import { HSV } from '../../../common/Colors';
 
 import { AppHeader } from '../AppHeader';
 import { ColorPicker } from '../ColorPicker';
-import { postMessage } from '../../messages';
+import { postMessage } from '../../messaging';
 
 import * as styles from './index.less';
 
