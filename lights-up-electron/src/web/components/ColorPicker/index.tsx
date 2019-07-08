@@ -15,7 +15,7 @@ interface ColorPickerProps {
 
 export const ColorPicker: React.SFC<ColorPickerProps> = (props: ColorPickerProps) => {
   const { hsvColor, brightness, onColorChange, onBrightnessChange } = props;
-  const rootRef = React.useRef(null);
+  const domRef = React.useRef(null);
   const colorPickerRef = React.useRef(null);
   const handleColorChange = React.useCallback(
     (newColor, changes) => {
@@ -34,17 +34,17 @@ export const ColorPicker: React.SFC<ColorPickerProps> = (props: ColorPickerProps
   );
   // Construct a new ColorPicker.
   React.useEffect(() => {
-    console.info('Construct color picker');
-    const colorPicker = new iro.ColorPicker(rootRef.current, {
+    console.info('[ColorPicker]', 'Construct color picker');
+    const colorPicker = new iro.ColorPicker(domRef.current, {
       width: 280,
       wheelLightness: false
     });
     colorPickerRef.current = colorPicker;
     return () => {
-      console.info('Destruct color picker');
+      console.info('[ColorPicker]', 'Destruct color picker');
       colorPickerRef.current = null;
     };
-  }, [rootRef]);
+  }, []);
   React.useEffect(() => {
     if (colorPickerRef.current) {
       const currentOfColorPicker = colorPickerRef.current.color;
@@ -58,7 +58,7 @@ export const ColorPicker: React.SFC<ColorPickerProps> = (props: ColorPickerProps
           s: hsvColor.s,
           v: brightness
         };
-        console.info('Set to ', newHSVColor);
+        console.info('[ColorPicker]', 'Set to ', newHSVColor);
         colorPickerRef.current.color.hsv = newHSVColor;
       }
     }
@@ -66,15 +66,15 @@ export const ColorPicker: React.SFC<ColorPickerProps> = (props: ColorPickerProps
   // Binding events.
   React.useEffect(() => {
     if (colorPickerRef.current) {
-      console.info('Binding events.');
+      console.info('[ColorPicker]', 'Binding events.');
       colorPickerRef.current.on('color:change', handleColorChange);
     }
     return () => {
       if (colorPickerRef.current) {
-        console.info('Unbinding events.');
+        console.info('[ColorPicker]', 'Unbinding events.');
         colorPickerRef.current.off('color:change', handleColorChange);
       }
     };
   }, [handleColorChange]);
-  return <div ref={rootRef} className={styles.container} />;
+  return <div ref={domRef} className={styles.container} />;
 };
