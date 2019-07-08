@@ -20,7 +20,7 @@ export class LightBulb extends Accessory {
     return this._name;
   }
 
-  get address() {
+  get url() {
     return this._address;
   }
 
@@ -63,10 +63,10 @@ export class LightBulb extends Accessory {
   }
 
   protected fetchGet(path: string, init?: RequestInit) {
-    return fetch(`${this.address}/${path}`, { ...init, method: 'GET' });
+    return fetch(`${this.url}/${path}`, { ...init, method: 'GET' });
   }
 
   protected fetchPost(path: string, init?: RequestInit) {
-    return fetch(`${this.address}/${path}`, { ...init, method: 'POST' });
+    return fetch(`${this.url}/${path}`, { ...init, method: 'POST' });
   }
 }
