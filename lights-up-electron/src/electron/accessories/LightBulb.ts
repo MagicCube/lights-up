@@ -1,3 +1,5 @@
+import fetch, { RequestInit } from 'node-fetch';
+
 import { HSV } from '../../common/Colors';
 import { Message } from '../../common/Message';
 
@@ -22,20 +24,28 @@ export class LightBulb extends Accessory {
     return this._address;
   }
 
-  turnOn() {
-    console.info(`[${this.name}] Turn on`);
+  async powerOn() {
+    await this.fetchPost(`power/on`);
+    console.info(`[${this.name}] POWER ON`);
   }
 
-  turnOff() {
-    console.info(`[${this.name}] Turn off`);
+  async powerOff() {
+    await this.fetchPost(`power/off`);
+    console.info(`[${this.name}] POWER OFF`);
   }
 
-  setHSVColor(hsvColor: HSV) {
-    console.info(`[${this.name}] Set color to`, hsvColor);
+  async setHSVColor(hsvColor: HSV) {
+    await this.fetchPost(`color/hsv`, {
+      body: JSON.stringify(hsvColor)
+    });
+    console.info(`[${this.name}] SET COLOR TO`, hsvColor);
   }
 
-  setBrightness(brightness: number) {
-    console.info(`[${this.name}] Set brightness to`, brightness);
+  async setBrightness(brightness: number) {
+    await this.fetchPost(`brightness`, {
+      body: `${brightness}`
+    });
+    console.info(`[${this.name}] SET BRIGHTNESS TO`, brightness);
   }
 
   onMessage(message: Message) {
@@ -50,5 +60,13 @@ export class LightBulb extends Accessory {
       }
     }
     return false;
+  }
+
+  protected fetchGet(path: string, init?: RequestInit) {
+    return fetch(`${this.address}/${path}`, { ...init, method: 'GET' });
+  }
+
+  protected fetchPost(path: string, init?: RequestInit) {
+    return fetch(`${this.address}/${path}`, { ...init, method: 'POST' });
   }
 }

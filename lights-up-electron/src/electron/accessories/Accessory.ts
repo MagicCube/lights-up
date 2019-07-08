@@ -7,11 +7,11 @@ export abstract class Accessory {
 
   protected onMessage(message: Message): boolean {
     if (message.type === 'turnOn') {
-      this.turnOn();
+      this.powerOn();
       return true;
     }
     if (message.type === 'turnOff') {
-      this.turnOff();
+      this.powerOff();
       return true;
     }
     return false;
@@ -21,7 +21,7 @@ export abstract class Accessory {
 
   abstract get address(): string;
 
-  abstract turnOn(): void;
+  abstract powerOn(): Promise<void>;
 
-  abstract turnOff(): void;
+  abstract powerOff(): Promise<void>;
 }
