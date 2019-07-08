@@ -30,7 +30,7 @@ export class App {
   }
 
   private _initLEDStrip() {
-    this._ledStrip = new LEDStrip('LED Strip in Studio Room', '192.168.4.12');
+    this._ledStrip = new LEDStrip('LED Strip in Studio Room', 'http://172.20.10.8');
   }
 
   private _initMenubar() {
