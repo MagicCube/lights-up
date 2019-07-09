@@ -41,8 +41,16 @@ void handleHsvColor() {
 }
 
 void handleBrightness() {
-  if (server.method() == HTTP_POST) {
-    server.send(200, "text/plain", server.arg("plain"));
+  if (server.method() == HTTP_GET) {
+    server.send(200, "text/plain", String(ledStrip.getBrightness()));
+  } else if (server.method() == HTTP_POST) {
+    auto brightness = server.arg("plain").toInt();
+    if (brightness >= 0 && brightness <= 255) {
+      ledStrip.setBrightness(brightness);
+      server.send(200, "text/plain", "OK");
+    } else {
+      server.send(400, "text/plain", "Brightness should be between 0 and 255.");
+    }
   }
 }
 
