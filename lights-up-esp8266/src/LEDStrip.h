@@ -10,12 +10,15 @@
 
 class LEDStrip {
 public:
+  bool isOn();
+
   void begin();
   void update();
   void powerOn();
   void powerOff();
 
 private:
+  bool _isOn;
   CRGB _row1[LED_STRIP_ROW_1_LENGTH];
 };
 
