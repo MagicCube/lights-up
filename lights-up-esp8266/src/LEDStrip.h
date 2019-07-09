@@ -20,7 +20,7 @@ public:
   void powerOff();
 
 private:
-  uint8_t _brightness = 60;
+  uint8_t _brightness = 75;
   bool _isOn;
   CRGB _row1[LED_STRIP_ROW_1_LENGTH];
 };
