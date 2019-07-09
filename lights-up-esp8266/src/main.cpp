@@ -70,6 +70,7 @@ void setup() {
 }
 
 void loop() {
+  ledStrip.update();
   ArduinoOTA.handle();
   server.handleClient();
 }
