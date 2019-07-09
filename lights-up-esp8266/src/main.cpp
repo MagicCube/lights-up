@@ -7,6 +7,10 @@
 
 #define DEVICE_NAME "LEDSTRIP-01"
 
+// 192.168.2.184
+#define WIFI_SSID "Henry's Living Room 2.4GHz"
+#define WIFI_PASS "13913954971"
+
 ESP8266WebServer server;
 
 void handleRoot() {
@@ -43,7 +47,7 @@ void handleBrightness() {
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
-  WiFi.begin("iPhone", "13913954971");
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);
   }
