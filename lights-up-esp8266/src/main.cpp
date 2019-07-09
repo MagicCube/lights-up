@@ -3,7 +3,8 @@
 
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
+
+#include "LEDStrip.h"
 
 #define DEVICE_NAME "LEDSTRIP-01"
 
@@ -11,6 +12,7 @@
 #define WIFI_SSID "Henry's Living Room 2.4GHz"
 #define WIFI_PASS "13913954971"
 
+LEDStrip ledStrip;
 ESP8266WebServer server;
 
 void handleRoot() {
@@ -20,14 +22,14 @@ void handleRoot() {
 
 void handlePowerOn() {
   if (server.method() == HTTP_POST) {
-    digitalWrite(LED_BUILTIN, LOW);
+    ledStrip.powerOn();
     server.send(200, "text/plain", "OK");
   }
 }
 
 void handlePowerOff() {
   if (server.method() == HTTP_POST) {
-    digitalWrite(LED_BUILTIN, HIGH);
+    ledStrip.powerOff();
     server.send(200, "text/plain", "OK");
   }
 }
@@ -44,14 +46,14 @@ void handleBrightness() {
   }
 }
 
-void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+void setupWiFi() {
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);
   }
-  MDNS.begin(DEVICE_NAME);
+}
+
+void setupServer() {
   ArduinoOTA.begin();
   server.on("/", handleRoot);
   server.on("/power/on", handlePowerOn);
@@ -61,8 +63,13 @@ void setup() {
   server.begin();
 }
 
+void setup() {
+  ledStrip.begin();
+  setupWiFi();
+  setupServer();
+}
+
 void loop() {
   ArduinoOTA.handle();
   server.handleClient();
-  MDNS.update();
 }
