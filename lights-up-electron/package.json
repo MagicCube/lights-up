@@ -14,9 +14,11 @@
   "dependencies": {
     "@jaames/iro": "^4.5.1",
     "@types/classnames": "^2.2.9",
+    "@types/lodash": "^4.14.136",
     "@types/node-fetch": "^2.3.7",
     "antd": "^3.20.0",
     "classnames": "^2.2.6",
+    "lodash": "^4.17.13",
     "menubar": "^6.0.6",
     "node-fetch": "^2.6.0",
     "react": "^16.8.6",
