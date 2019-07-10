@@ -1,5 +1,4 @@
-#ifndef LED_STRIP_H
-#define LED_STRIP_H
+#pragma once
 
 #include <Arduino.h>
 
@@ -24,5 +23,3 @@ private:
   bool _isOn;
   CRGB _row1[LED_STRIP_ROW_1_LENGTH];
 };
-
-#endif
