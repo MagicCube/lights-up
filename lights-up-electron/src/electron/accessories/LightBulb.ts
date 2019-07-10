@@ -1,9 +1,14 @@
+import { throttle } from 'lodash';
 import fetch, { RequestInit } from 'node-fetch';
 
 import { HSV } from '../../common/Colors';
 import { Message } from '../../common/Message';
 
 import { Accessory } from './Accessory';
+
+const THROTTLE_WAIT = 200;
+
+const throttled = throttle((callback: () => Promise<void>) => callback(), THROTTLE_WAIT);
 
 export class LightBulb extends Accessory {
   private _name: string;
@@ -35,17 +40,21 @@ export class LightBulb extends Accessory {
   }
 
   async setHSVColor(hsvColor: HSV) {
-    await this.fetchPost(`color/hsv`, {
-      body: JSON.stringify(hsvColor)
+    await throttled(async () => {
+      console.info(`[${this.name}] SET COLOR TO`, hsvColor);
+      await this.fetchPost(`color/hsv`, {
+        body: JSON.stringify(hsvColor)
+      });
     });
-    console.info(`[${this.name}] SET COLOR TO`, hsvColor);
   }
 
   async setBrightness(brightness: number) {
-    await this.fetchPost(`brightness`, {
-      body: `${brightness}`
+    await throttled(async () => {
+      console.info(`[${this.name}] SET BRIGHTNESS TO`, brightness);
+      await this.fetchPost(`brightness`, {
+        body: `${brightness}`
+      });
     });
-    console.info(`[${this.name}] SET BRIGHTNESS TO`, brightness);
   }
 
   onMessage(message: Message) {
