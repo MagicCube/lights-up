@@ -21,7 +21,6 @@
     "node-fetch": "^2.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-use": "^9.10.0",
     "use-debounce": "^2.1.0"
   },
   "devDependencies": {
