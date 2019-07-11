@@ -52,7 +52,7 @@ export class LightBulb extends Accessory {
       console.info(`[${this.name}] Setting color to`, hsvColor);
       try {
         await this.fetchPost(`color/hsv`, {
-          body: JSON.stringify(hsvColor)
+          body: `${hsvColor.h},${hsvColor.s},${hsvColor.v}`
         });
       } catch (e) {
         console.error('Fail to set HSV color.');
