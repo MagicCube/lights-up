@@ -16,7 +16,7 @@ void LEDStrip::setBrightness(uint8_t brightness, bool immediately) {
   }
   FastLED.setBrightness(scale);
   if (immediately) {
-    setHSVColor(_hsvColor);
+    _updateColor();
   }
 }
 
@@ -27,9 +27,7 @@ HSV LEDStrip::getHSVColor() {
 void LEDStrip::setHSVColor(HSV hsv, bool immediately) {
   _hsvColor = hsv;
   if (immediately) {
-    CRGB rgb;
-    rgb.setHSV(_hsvColor.h / 360.0 * 255, _hsvColor.s / 100.0 * 255, _hsvColor.v / 100.0 * 255);
-    FastLED.showColor(rgb);
+    _updateColor();
   }
 }
 
@@ -46,10 +44,16 @@ void LEDStrip::update() {
 
 void LEDStrip::powerOn() {
   _isOn = true;
-  setHSVColor(_hsvColor);
+  _updateColor();
 }
 
 void LEDStrip::powerOff() {
   _isOn = false;
   FastLED.showColor(CRGB::Black);
+}
+
+void LEDStrip::_updateColor() {
+  CRGB rgb;
+  rgb.setHSV(_hsvColor.h / 360.0 * 255, _hsvColor.s / 100.0 * 255, _hsvColor.v / 100.0 * 255);
+  FastLED.showColor(rgb);
 }
