@@ -4,7 +4,8 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
 
-#include "LEDStrip.h"
+#include "colors/HSV.h"
+#include "devices/LEDStrip.h"
 
 #define DEVICE_NAME "LEDSTRIP-01"
 
@@ -34,9 +35,14 @@ void handlePowerOff() {
   }
 }
 
-void handleHsvColor() {
-  if (server.method() == HTTP_POST) {
+void handleHSVColor() {
+  if (server.method() == HTTP_GET) {
+    server.send(200, "application/json", ledStrip.getHSVColor().toString());
+  } else if (server.method() == HTTP_POST) {
     server.send(200, "text/plain", server.arg("plain"));
+    HSV hsv = HSV::parse(server.arg("plain"));
+    ledStrip.setHSVColor(hsv);
+    server.send(200, "text/plain", "OK");
   }
 }
 
@@ -66,7 +72,7 @@ void setupServer() {
   server.on("/", handleRoot);
   server.on("/power/on", handlePowerOn);
   server.on("/power/off", handlePowerOff);
-  server.on("/color/hsv", handleHsvColor);
+  server.on("/color/hsv", handleHSVColor);
   server.on("/brightness", handleBrightness);
   server.begin();
 }
