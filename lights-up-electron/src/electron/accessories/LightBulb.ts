@@ -6,7 +6,7 @@ import { Message } from '../../common/Message';
 
 import { Accessory } from './Accessory';
 
-const THROTTLE_WAIT = 200;
+const THROTTLE_WAIT = 100;
 
 const throttled = throttle((callback: () => Promise<void>) => callback(), THROTTLE_WAIT);
 
@@ -30,30 +30,46 @@ export class LightBulb extends Accessory {
   }
 
   async powerOn() {
-    await this.fetchPost(`power/on`);
-    console.info(`[${this.name}] POWER ON`);
+    console.info(`[${this.name}] Power on.`);
+    try {
+      await this.fetchPost(`power/on`);
+    } catch (e) {
+      console.error('Fail to power on.');
+    }
   }
 
   async powerOff() {
-    await this.fetchPost(`power/off`);
-    console.info(`[${this.name}] POWER OFF`);
+    console.info(`[${this.name}] Power off.`);
+    try {
+      await this.fetchPost(`power/off`);
+    } catch (e) {
+      console.error('Fail to power off.');
+    }
   }
 
   async setHSVColor(hsvColor: HSV) {
     await throttled(async () => {
-      console.info(`[${this.name}] SET COLOR TO`, hsvColor);
-      await this.fetchPost(`color/hsv`, {
-        body: JSON.stringify(hsvColor)
-      });
+      console.info(`[${this.name}] Setting color to`, hsvColor);
+      try {
+        await this.fetchPost(`color/hsv`, {
+          body: JSON.stringify(hsvColor)
+        });
+      } catch (e) {
+        console.error('Fail to set HSV color.');
+      }
     });
   }
 
   async setBrightness(brightness: number) {
     await throttled(async () => {
-      console.info(`[${this.name}] SET BRIGHTNESS TO`, brightness);
-      await this.fetchPost(`brightness`, {
-        body: `${brightness}`
-      });
+      console.info(`[${this.name}] Setting brightness to`, brightness);
+      try {
+        await this.fetchPost(`brightness`, {
+          body: `${brightness}`
+        });
+      } catch (e) {
+        console.error('Fail to set brightness.');
+      }
     });
   }
 
