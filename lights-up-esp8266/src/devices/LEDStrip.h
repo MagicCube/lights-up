@@ -28,5 +28,7 @@ private:
   HSV _hsvColor = {60, 100, 100};
   CRGB _row1[LED_STRIP_ROW_1_LENGTH];
 
+  void _startOperation();
+  void _endOperation();
   void _updateColor();
 };
