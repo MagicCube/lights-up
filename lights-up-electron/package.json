@@ -6,7 +6,7 @@
   "scripts": {
     "build:web": "webpack --config webpack.prod.js",
     "dev:web": "webpack-dev-server --config webpack.dev.js",
-    "dev:electron": "tsc -w --outDir dist --target es5 src/electron/index.ts",
+    "dev:electron": "tsc -w --outDir dist --target es5 --esModuleInterop src/electron/index.ts",
     "start": "electron ."
   },
   "author": "Henry Li (henry1943@163.com)",
@@ -14,11 +14,11 @@
   "dependencies": {
     "@jaames/iro": "^4.5.1",
     "@types/classnames": "^2.2.9",
-    "@types/lodash": "^4.14.136",
+    "@types/lodash.throttle": "^4.1.6",
     "@types/node-fetch": "^2.3.7",
     "antd": "^3.20.0",
     "classnames": "^2.2.6",
-    "lodash": "^4.17.13",
+    "lodash.throttle": "^4.1.1",
     "menubar": "^6.0.6",
     "node-fetch": "^2.6.0",
     "react": "^16.8.6",

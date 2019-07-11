@@ -1,4 +1,4 @@
-import { throttle } from 'lodash';
+import throttle from 'lodash.throttle';
 import fetch, { RequestInit } from 'node-fetch';
 
 import { HSV } from '../../common/Colors';
