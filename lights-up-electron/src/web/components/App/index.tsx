@@ -13,7 +13,7 @@ import * as styles from './index.less';
 export const App: React.SFC = () => {
   const [hsvColor, setHSVColor] = React.useState({ h: 60, s: 100, v: 100 });
   const [brightness, setBrightness] = React.useState(100);
-  const [power, setPower] = React.useState(false);
+  const [power, setPower] = React.useState(true);
 
   const handlePowerChange = React.useCallback((checked: boolean) => {
     setPower(checked);
