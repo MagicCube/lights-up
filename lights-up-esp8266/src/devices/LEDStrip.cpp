@@ -9,17 +9,10 @@ uint8_t LEDStrip::getBrightness() {
 }
 
 void LEDStrip::setBrightness(uint8_t brightness, bool immediately) {
-  _startOperation();
   _brightness = brightness;
-  auto scale = _brightness / 100.00 * 255;
-  if (scale > 255) {
-    scale = 255;
+  if (immediately && _isOn) {
+    _updateBrightness();
   }
-  FastLED.setBrightness(scale);
-  if (immediately) {
-    _updateColor();
-  }
-  _endOperation();
 }
 
 HSV LEDStrip::getHSVColor() {
@@ -27,19 +20,14 @@ HSV LEDStrip::getHSVColor() {
 }
 
 void LEDStrip::setHSVColor(HSV hsv, bool immediately) {
-  _startOperation();
   _hsvColor = hsv;
-  if (immediately) {
+  if (immediately && _isOn) {
     _updateColor();
   }
-  _endOperation();
 }
 
 void LEDStrip::begin() {
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
   FastLED.addLeds<WS2812B, LED_STRIP_ROW_1_PIN, GRB>(_row1, LED_STRIP_ROW_1_LENGTH);
-  setBrightness(_brightness, false);
   powerOn();
 }
 
@@ -49,17 +37,14 @@ void LEDStrip::update() {
 }
 
 void LEDStrip::powerOn() {
-  _startOperation();
   _isOn = true;
   _updateColor();
-  _endOperation();
+  _updateBrightness();
 }
 
 void LEDStrip::powerOff() {
-  _startOperation();
   _isOn = false;
   FastLED.showColor(CRGB::Black);
-  _endOperation();
 }
 
 void LEDStrip::_updateColor() {
@@ -68,10 +53,10 @@ void LEDStrip::_updateColor() {
   FastLED.showColor(rgb);
 }
 
-void LEDStrip::_startOperation() {
-  digitalWrite(LED_BUILTIN, LOW);
-}
-
-void LEDStrip::_endOperation() {
-  digitalWrite(LED_BUILTIN, HIGH);
+void LEDStrip::_updateBrightness() {
+  auto scale = _brightness / 100.00 * 255;
+  if (scale > 255) {
+    scale = 255;
+  }
+  FastLED.setBrightness(scale);
 }

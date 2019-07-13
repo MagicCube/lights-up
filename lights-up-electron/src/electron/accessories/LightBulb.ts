@@ -13,12 +13,16 @@ const throttled = throttle((callback: () => Promise<void>) => callback(), THROTT
 export class LightBulb extends Accessory {
   private _name: string;
 
-  private _address: string;
+  private _url: string;
 
-  constructor(name: string, address: string) {
+  private _brightness: number = 100;
+
+  private _hsvColor: HSV = { h: 60, s: 100, v: 100 };
+
+  constructor(name: string, url: string) {
     super();
     this._name = name;
-    this._address = address;
+    this._url = url;
   }
 
   get name() {
@@ -26,13 +30,22 @@ export class LightBulb extends Accessory {
   }
 
   get url() {
-    return this._address;
+    return this._url;
+  }
+
+  get hsvColor() {
+    return this._hsvColor;
+  }
+
+  get brigntness() {
+    return this._brightness;
   }
 
   async powerOn() {
     console.info(`[${this.name}] Power on.`);
     try {
-      await this.fetchPost(`power/on`);
+      await this.sendPayload();
+      await this.fetchPost('power/on');
     } catch (e) {
       console.error('Fail to power on.');
     }
@@ -41,19 +54,18 @@ export class LightBulb extends Accessory {
   async powerOff() {
     console.info(`[${this.name}] Power off.`);
     try {
-      await this.fetchPost(`power/off`);
+      await this.fetchPost('power/off');
     } catch (e) {
       console.error('Fail to power off.');
     }
   }
 
   async setHSVColor(hsvColor: HSV) {
+    this._hsvColor = hsvColor;
     await throttled(async () => {
       console.info(`[${this.name}] Setting color to`, hsvColor);
       try {
-        await this.fetchPost(`color/hsv`, {
-          body: `${hsvColor.h},${hsvColor.s},${hsvColor.v}`
-        });
+        await this.sendPayload();
       } catch (e) {
         console.error('Fail to set HSV color.');
       }
@@ -61,12 +73,11 @@ export class LightBulb extends Accessory {
   }
 
   async setBrightness(brightness: number) {
+    this._brightness = brightness;
     await throttled(async () => {
       console.info(`[${this.name}] Setting brightness to`, brightness);
       try {
-        await this.fetchPost(`brightness`, {
-          body: `${brightness}`
-        });
+        await this.sendPayload();
       } catch (e) {
         console.error('Fail to set brightness.');
       }
@@ -85,6 +96,12 @@ export class LightBulb extends Accessory {
       }
     }
     return false;
+  }
+
+  protected async sendPayload() {
+    await this.fetchPost(`payload`, {
+      body: `${this.hsvColor.h},${this.hsvColor.s},${this.hsvColor.v},${this.brigntness}`
+    });
   }
 
   protected fetchGet(path: string, init?: RequestInit) {

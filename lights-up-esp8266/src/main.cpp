@@ -21,6 +21,18 @@ void handleRoot() {
               "{\"name\":\"" + String(DEVICE_NAME) + "\",\"time\":\"" + String(millis()) + "\"}");
 }
 
+void handlePayload() {
+  if (server.method() == HTTP_GET) {
+    LEDStripPayload payload = {ledStrip.getHSVColor(), ledStrip.getBrightness()};
+    server.send(200, "application/json", payload.toJSON());
+  } else {
+    LEDStripPayload payload = LEDStripPayload::parse(server.arg("plain"));
+    ledStrip.setBrightness(payload.brightness);
+    ledStrip.setHSVColor(payload.hsvColor);
+    server.send(200, "text/plain", "OK");
+  }
+}
+
 void handlePowerOn() {
   if (server.method() == HTTP_POST) {
     ledStrip.powerOn();
@@ -32,31 +44,6 @@ void handlePowerOff() {
   if (server.method() == HTTP_POST) {
     ledStrip.powerOff();
     server.send(200, "text/plain", "OK");
-  }
-}
-
-void handleHSVColor() {
-  if (server.method() == HTTP_GET) {
-    server.send(200, "application/json", ledStrip.getHSVColor().toString());
-  } else if (server.method() == HTTP_POST) {
-    server.send(200, "text/plain", server.arg("plain"));
-    HSV hsv = HSV::parse(server.arg("plain"));
-    ledStrip.setHSVColor(hsv);
-    server.send(200, "text/plain", "OK");
-  }
-}
-
-void handleBrightness() {
-  if (server.method() == HTTP_GET) {
-    server.send(200, "text/plain", String(ledStrip.getBrightness()));
-  } else if (server.method() == HTTP_POST) {
-    auto brightness = server.arg("plain").toInt();
-    if (brightness >= 0 && brightness <= 255) {
-      ledStrip.setBrightness(brightness);
-      server.send(200, "text/plain", "OK");
-    } else {
-      server.send(400, "text/plain", "Brightness should be between 0 and 255.");
-    }
   }
 }
 
@@ -72,8 +59,7 @@ void setupServer() {
   server.on("/", handleRoot);
   server.on("/power/on", handlePowerOn);
   server.on("/power/off", handlePowerOff);
-  server.on("/color/hsv", handleHSVColor);
-  server.on("/brightness", handleBrightness);
+  server.on("/payload", handlePayload);
   server.begin();
 }
 

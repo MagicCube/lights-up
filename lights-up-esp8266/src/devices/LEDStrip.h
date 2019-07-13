@@ -4,6 +4,7 @@
 
 #include <FastLED.h>
 
+#include "LEDStripPayload.h"
 #include "colors/HSV.h"
 
 #define LED_STRIP_ROW_1_PIN D3
@@ -31,4 +32,5 @@ private:
   void _startOperation();
   void _endOperation();
   void _updateColor();
+  void _updateBrightness();
 };
