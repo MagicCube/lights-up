@@ -17,15 +17,17 @@ LEDStrip ledStrip;
 ESP8266WebServer server;
 
 void handleRoot() {
+  LEDStripPayload payload = {ledStrip.getHSVColor(), ledStrip.getBrightness()};
   server.send(200, "application/json",
-              "{\"name\":\"" + String(DEVICE_NAME) + "\",\"time\":\"" + String(millis()) + "\"}");
+              "{\"name\":\"" + String(DEVICE_NAME) + "\"" +
+              ",\"power\":" + (ledStrip.isOn() ? "true" : "false") +
+              ",\"aliveTime\":" + String(millis()) +
+              ",\"payload\":" + payload.toJSON() +
+              "}");
 }
 
 void handlePayload() {
-  if (server.method() == HTTP_GET) {
-    LEDStripPayload payload = {ledStrip.getHSVColor(), ledStrip.getBrightness()};
-    server.send(200, "application/json", payload.toJSON());
-  } else {
+  if (server.method() == HTTP_POST) {
     LEDStripPayload payload = LEDStripPayload::parse(server.arg("plain"));
     ledStrip.setBrightness(payload.brightness);
     ledStrip.setHSVColor(payload.hsvColor);
