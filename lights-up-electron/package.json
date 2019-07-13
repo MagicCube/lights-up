@@ -61,7 +61,6 @@
   },
   "build": {
     "appId": "magiccube.lightsup",
-    "asar": false,
     "files": [
       "public/*.*",
       "build/**/*.*"
