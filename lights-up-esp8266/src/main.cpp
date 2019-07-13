@@ -20,10 +20,8 @@ void handleRoot() {
   LEDStripPayload payload = {ledStrip.getHSVColor(), ledStrip.getBrightness()};
   server.send(200, "application/json",
               "{\"name\":\"" + String(DEVICE_NAME) + "\"" +
-              ",\"power\":" + (ledStrip.isOn() ? "true" : "false") +
-              ",\"aliveTime\":" + String(millis()) +
-              ",\"payload\":" + payload.toJSON() +
-              "}");
+                  ",\"power\":" + (ledStrip.isOn() ? "true" : "false") +
+                  ",\"aliveTime\":" + String(millis()) + ",\"payload\":" + payload.toJSON() + "}");
 }
 
 void handlePayload() {
