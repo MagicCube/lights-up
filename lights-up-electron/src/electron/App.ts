@@ -35,7 +35,7 @@ export class App {
 
   private _initMenubar() {
     const options = {
-      index: 'http://localhost:3000/'
+      index: `file://${mappath('public/index.html')}`
     };
     menubar({
       ...options,

@@ -5,7 +5,7 @@
     "module": "es6",
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "outDir": "./dist/",
+    "outDir": "./build/",
     "sourceMap": true,
     "target": "es5"
   },

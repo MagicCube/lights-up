@@ -2,12 +2,14 @@
   "name": "lights-up-electron",
   "version": "1.0.0",
   "description": "Desktop control for Lights-up.",
-  "main": "dist/electron/index.js",
+  "main": "build/electron/index.js",
   "scripts": {
     "build:web": "webpack --config webpack.prod.js",
+    "build:electron": "tsc --outDir build --target es5 --esModuleInterop src/electron/index.ts",
     "dev:web": "webpack-dev-server --config webpack.dev.js",
-    "dev:electron": "tsc -w --outDir dist --target es5 --esModuleInterop src/electron/index.ts",
-    "start": "electron ."
+    "dev:electron": "tsc -w --outDir build --target es5 --esModuleInterop src/electron/index.ts",
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "author": "Henry Li (henry1943@163.com)",
   "license": "MIT",
@@ -33,6 +35,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "1.0.1",
     "electron": "^5.0.6",
+    "electron-builder": "^21.0.15",
     "error-overlay-webpack-plugin": "^0.4.0",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.0",
@@ -55,5 +58,16 @@
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1"
+  },
+  "build": {
+    "appId": "magiccube.lightsup",
+    "asar": false,
+    "files": [
+      "public/*.*",
+      "build/**/*.*"
+    ],
+    "mac": {
+      "target": "dir"
+    }
   }
 }

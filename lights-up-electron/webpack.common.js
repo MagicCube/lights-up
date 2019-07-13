@@ -12,7 +12,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve('./dist/web')
+    path: path.resolve('./build/web')
   },
   module: {
     rules: [
