@@ -6,7 +6,7 @@ import { Message } from '../../common/Message';
 
 import { Accessory } from './Accessory';
 
-const THROTTLE_WAIT = 100;
+const THROTTLE_WAIT = 250;
 
 const throttled = throttle((callback: () => Promise<void>) => callback(), THROTTLE_WAIT);
 
@@ -84,8 +84,25 @@ export class LightBulb extends Accessory {
     });
   }
 
+  async setPayload(hsvColor: HSV, brightness: number) {
+    this._hsvColor = hsvColor;
+    this._brightness = brightness;
+    await throttled(async () => {
+      console.info(`[${this.name}] Setting payload to`, hsvColor, brightness);
+      try {
+        await this.sendPayload();
+      } catch (e) {
+        console.error('Fail to set payload.');
+      }
+    });
+  }
+
   onMessage(message: Message) {
     if (!super.onMessage(message)) {
+      if (message.type === 'setPayload') {
+        this.setPayload(message.hsvColor as HSV, message.brightness as number);
+        return true;
+      }
       if (message.type === 'setHSVColor') {
         this.setHSVColor(message.hsvColor as HSV);
         return true;

@@ -18,20 +18,26 @@ export const App: React.SFC = () => {
   const handlePowerChange = React.useCallback((checked: boolean) => {
     setPower(checked);
     if (checked) {
-      postMessage('turnOn');
+      postMessage('powerOn');
     } else {
-      postMessage('turnOff');
+      postMessage('powerOff');
     }
   }, []);
 
-  const handleColorChange = React.useCallback((newColor: HSV) => {
-    setHSVColor(newColor);
-    postMessage('setHSVColor', { hsvColor: newColor });
-  }, []);
-  const handleBrightnessChange = React.useCallback((newBrightess: number) => {
-    setBrightness(newBrightess);
-    postMessage('setBrightness', { brightness: newBrightess });
-  }, []);
+  const handleColorChange = React.useCallback(
+    (newColor: HSV) => {
+      setHSVColor(newColor);
+      postMessage('setPayload', { hsvColor: newColor, brightness });
+    },
+    [brightness]
+  );
+  const handleBrightnessChange = React.useCallback(
+    (newBrightess: number) => {
+      setBrightness(newBrightess);
+      postMessage('setPayload', { hsvColor, brightness: newBrightess });
+    },
+    [hsvColor]
+  );
 
   return (
     <div>

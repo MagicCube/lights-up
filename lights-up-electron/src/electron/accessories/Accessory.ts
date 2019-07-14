@@ -6,11 +6,11 @@ export abstract class Accessory {
   }
 
   protected onMessage(message: Message): boolean {
-    if (message.type === 'turnOn') {
+    if (message.type === 'powerOn') {
       this.powerOn();
       return true;
     }
-    if (message.type === 'turnOff') {
+    if (message.type === 'powerOff') {
       this.powerOff();
       return true;
     }
