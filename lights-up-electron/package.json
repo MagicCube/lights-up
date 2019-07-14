@@ -9,6 +9,7 @@
     "dev:web": "webpack-dev-server --config webpack.dev.js",
     "dev:electron": "tsc -w --outDir build --target es5 --esModuleInterop src/electron/index.ts",
     "start": "electron .",
+    "build": "yarn build:web && yarn build:electron",
     "dist": "electron-builder"
   },
   "author": "Henry Li (henry1943@163.com)",
