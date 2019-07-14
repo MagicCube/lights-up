@@ -7,21 +7,38 @@ The desktop controller of Lights-up.
 ## How to Run in Development Mode
 
 1. Install npm packages.
-  ```sh
-  yarn
-  ```
+
+```sh
+yarn
+```
 
 2. Start development web server.
-  ```sh
-  yarn dev:web 
-  ```
+
+```sh
+yarn dev:web
+```
 
 3. Start watch mode for electron app.
-  ```sh
-  yarn dev:electron
-  ```
+
+```sh
+yarn dev:electron
+```
 
 4. Start electron app.
-  ```sh
-  yarn start
-  ```
+
+```sh
+yarn start --dev
+```
+
+## How to Build
+
+```sh
+yarn build
+```
+
+## How to Pack up
+
+```sh
+yarn build
+yarn dist
+```
