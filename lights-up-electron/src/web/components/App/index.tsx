@@ -7,12 +7,19 @@ import { HSV } from '../../../common/Colors';
 import { AppHeader } from '../AppHeader';
 import { ColorPicker } from '../ColorPicker';
 import { postMessage } from '../../messaging';
+import { loadPayloadFromSettings, savePayloadToSettings } from '../../settings';
 
 import * as styles from './index.less';
 
 export const App: React.SFC = () => {
-  const [hsvColor, setHSVColor] = React.useState({ h: 60, s: 100, v: 100 });
-  const [brightness, setBrightness] = React.useState(100);
+  const [hsvColor, setHSVColor] = React.useState(() => {
+    const payload = loadPayloadFromSettings();
+    return payload.hsvColor;
+  });
+  const [brightness, setBrightness] = React.useState(() => {
+    const payload = loadPayloadFromSettings();
+    return payload.brightness;
+  });
   const [power, setPower] = React.useState(true);
 
   const handlePowerChange = React.useCallback((checked: boolean) => {
@@ -27,6 +34,8 @@ export const App: React.SFC = () => {
   const handleColorChange = React.useCallback(
     (newColor: HSV) => {
       setHSVColor(newColor);
+      const payload = { hsvColor: newColor, brightness };
+      savePayloadToSettings(payload);
       postMessage('setPayload', { hsvColor: newColor, brightness });
     },
     [brightness]
@@ -34,7 +43,9 @@ export const App: React.SFC = () => {
   const handleBrightnessChange = React.useCallback(
     (newBrightess: number) => {
       setBrightness(newBrightess);
-      postMessage('setPayload', { hsvColor, brightness: newBrightess });
+      const payload = { hsvColor, brightness: newBrightess };
+      savePayloadToSettings(payload);
+      postMessage('setPayload', payload);
     },
     [hsvColor]
   );
