@@ -22,14 +22,18 @@ export const App: React.SFC = () => {
   });
   const [power, setPower] = React.useState(true);
 
-  const handlePowerChange = React.useCallback((checked: boolean) => {
-    setPower(checked);
-    if (checked) {
-      postMessage('powerOn');
-    } else {
-      postMessage('powerOff');
-    }
-  }, []);
+  const handlePowerChange = React.useCallback(
+    (checked: boolean) => {
+      setPower(checked);
+      if (checked) {
+        const payload = { hsvColor, brightness };
+        postMessage('powerOn', payload);
+      } else {
+        postMessage('powerOff');
+      }
+    },
+    [brightness, hsvColor]
+  );
 
   const handleColorChange = React.useCallback(
     (newColor: HSV) => {

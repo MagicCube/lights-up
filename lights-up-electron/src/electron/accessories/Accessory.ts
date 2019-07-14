@@ -7,7 +7,7 @@ export abstract class Accessory {
 
   protected onMessage(message: Message): boolean {
     if (message.type === 'powerOn') {
-      this.powerOn();
+      this.powerOn(message);
       return true;
     }
     if (message.type === 'powerOff') {
@@ -21,7 +21,7 @@ export abstract class Accessory {
 
   abstract get url(): string;
 
-  abstract powerOn(): Promise<void>;
+  abstract powerOn(message?: Message): Promise<void>;
 
-  abstract powerOff(): Promise<void>;
+  abstract powerOff(message?: Message): Promise<void>;
 }

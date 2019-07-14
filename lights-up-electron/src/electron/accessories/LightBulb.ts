@@ -41,8 +41,10 @@ export class LightBulb extends Accessory {
     return this._brightness;
   }
 
-  async powerOn() {
+  async powerOn(message: Message) {
     console.info(`[${this.name}] Power on.`);
+    this._brightness = message.brightness as number;
+    this._hsvColor = message.hsvColor as HSV;
     try {
       await this.sendPayload();
       await this.fetchPost('power/on');
