@@ -26,7 +26,7 @@ public:
 private:
   uint8_t _brightness = 100;
   bool _isOn;
-  HSV _hsvColor = {60, 100, 100};
+  HSV _hsvColor = {60, 66, 100};
   CRGB _row1[LED_STRIP_ROW_1_LENGTH];
 
   void _startOperation();
