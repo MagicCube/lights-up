@@ -18,11 +18,20 @@ export class App {
 
   private _ledStrip: LEDStrip = null;
 
+  get devMode() {
+    return process.argv[2] === '--dev';
+  }
+
   get ledStrip() {
     return this._ledStrip;
   }
 
   setup() {
+    if (this.devMode) {
+      console.info('\nLights-up is now running in [DEV] mode.\n');
+    } else {
+      console.info('\nLights-up is now running.\n');
+    }
     this._initMenubar();
     this._initLEDStrip();
     this._registerHotkeys();
@@ -34,11 +43,9 @@ export class App {
   }
 
   private _initMenubar() {
-    const options = {
-      index: `file://${mappath('public/index.html')}`
-    };
+    const index = this.devMode ? 'http://localhost:3000/index.dev.html' : `file://${mappath('public/index.html')}`;
     menubar({
-      ...options,
+      index,
       icon: mappath('public/icon.png'),
       browserWindow: {
         width: 300,
