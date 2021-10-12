@@ -35,7 +35,7 @@
     "@typescript-eslint/parser": "^1.11.0",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "1.0.1",
-    "electron": "^5.0.6",
+    "electron": "^11.5.0",
     "electron-builder": "^21.0.15",
     "error-overlay-webpack-plugin": "^0.4.0",
     "eslint": "^6.0.1",
